@@ -8,11 +8,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.CoachBO;
-import lk.ijse.theGym.model.CoachController;
 import lk.ijse.theGym.model.CustomerAttendanceController;
 import lk.ijse.theGym.util.DateTimeUtil;
 import lk.ijse.theGym.util.Navigation;
-import lk.ijse.theGym.util.Notification;
 
 import java.io.IOException;
 import java.net.URL;

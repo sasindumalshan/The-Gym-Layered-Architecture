@@ -1,17 +1,12 @@
 package lk.ijse.theGym.bo.custom.impl;
 
-import lk.ijse.theGym.bo.CrudBO;
 import lk.ijse.theGym.bo.custom.CustomerBO;
 import lk.ijse.theGym.dao.DAOFactory;
 import lk.ijse.theGym.dao.custom.CustomerDAO;
 import lk.ijse.theGym.dto.CustomerDTO;
 import lk.ijse.theGym.dto.projection.CustomerPackageProjection;
 import lk.ijse.theGym.entity.Customer;
-import lk.ijse.theGym.model.CustomerController;
-import lk.ijse.theGym.util.CrudUtil;
-import lk.ijse.theGym.util.DateTimeUtil;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

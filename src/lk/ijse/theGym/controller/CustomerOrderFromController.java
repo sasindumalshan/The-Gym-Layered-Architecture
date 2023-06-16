@@ -19,7 +19,6 @@ import lk.ijse.theGym.db.DBConnection;
 import lk.ijse.theGym.dto.CustomerDTO;
 import lk.ijse.theGym.dto.ItemsDTO;
 import lk.ijse.theGym.dto.OrderDTO;
-import lk.ijse.theGym.model.CustomerController;
 import lk.ijse.theGym.model.OrderController;
 import lk.ijse.theGym.util.DateTimeUtil;
 import lk.ijse.theGym.util.Notification;

@@ -10,8 +10,6 @@ import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.CoachBO;
 import lk.ijse.theGym.bo.custom.CustomerBO;
 import lk.ijse.theGym.db.DBConnection;
-import lk.ijse.theGym.model.CoachController;
-import lk.ijse.theGym.model.CustomerController;
 import lk.ijse.theGym.util.Alert.MyAlert;
 import lk.ijse.theGym.util.Navigation;
 import net.sf.jasperreports.engine.*;

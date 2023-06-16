@@ -14,12 +14,10 @@ import lk.ijse.theGym.bo.custom.CoachBO;
 import lk.ijse.theGym.bo.custom.CustomerBO;
 import lk.ijse.theGym.dto.CoachDTO;
 import lk.ijse.theGym.dto.CustomerDTO;
-import lk.ijse.theGym.model.CustomerController;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;

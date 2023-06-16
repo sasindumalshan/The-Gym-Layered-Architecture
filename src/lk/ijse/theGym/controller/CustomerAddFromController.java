@@ -13,7 +13,6 @@ import lk.ijse.theGym.bo.custom.CoachBO;
 import lk.ijse.theGym.bo.custom.CustomerBO;
 import lk.ijse.theGym.dto.CoachDTO;
 import lk.ijse.theGym.dto.CustomerDTO;
-import lk.ijse.theGym.model.CustomerController;
 import lk.ijse.theGym.model.PackController;
 import lk.ijse.theGym.model.SalaryController;
 import lk.ijse.theGym.util.DateTimeUtil;

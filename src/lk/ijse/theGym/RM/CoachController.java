@@ -1,4 +1,4 @@
-package lk.ijse.theGym.model;
+package lk.ijse.theGym.RM;
 
 import lk.ijse.theGym.dto.CoachDTO;
 import lk.ijse.theGym.dto.CustomerDTO;

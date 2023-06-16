@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.CustomerBO;
-import lk.ijse.theGym.model.CustomerController;
 import lk.ijse.theGym.model.PackController;
 import lk.ijse.theGym.dto.Package;
 import lk.ijse.theGym.util.Notification;

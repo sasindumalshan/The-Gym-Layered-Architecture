@@ -17,8 +17,6 @@ import lk.ijse.theGym.bo.custom.CustomerBO;
 import lk.ijse.theGym.dto.CoachDTO;
 import lk.ijse.theGym.dto.CustomerDTO;
 import lk.ijse.theGym.dto.projection.CustomerPackageProjection;
-import lk.ijse.theGym.model.CoachController;
-import lk.ijse.theGym.model.CustomerController;
 import lk.ijse.theGym.model.ExerciseController;
 import lk.ijse.theGym.model.ScheduleController;
 import lk.ijse.theGym.dto.ExercisesDTO;
