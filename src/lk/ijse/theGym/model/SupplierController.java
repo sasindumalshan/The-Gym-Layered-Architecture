@@ -47,14 +47,6 @@ public class SupplierController {
                 );
     }
 
-    public static ResultSet searchSupplierId(String id) throws SQLException, ClassNotFoundException {
-        return CrudUtil.crudUtil("SELECT * FROM supplier WHERE supplier_id=?",id);
-    }
-
-    public static ResultSet searchSupplierName(String name) throws SQLException, ClassNotFoundException {
-        return CrudUtil.crudUtil("SELECT * FROM supplier WHERE company_name=?",name);
-    }
-
     public static ResultSet getComName(String id) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT company_name FROM supplier WHERE supplier_id=?",id);
     }
