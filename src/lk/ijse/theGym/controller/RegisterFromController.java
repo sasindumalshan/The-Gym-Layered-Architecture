@@ -63,8 +63,8 @@ public class RegisterFromController implements Initializable {
 
             try {
                 if (rBtnCustomer.isSelected()) {
-                    ResultSet set1 = CustomerController.getSearchIdData(search.getText());
-                    while (set1.next()) {
+                    //ResultSet set1 = CustomerController.getSearchIdData(search.getText());
+                   /* while (set1.next()) {
                         boolean isNotDuplicate = true;
                         if (ids.isEmpty()) {
                             ids.add(set1.getString(1));
@@ -92,6 +92,10 @@ public class RegisterFromController implements Initializable {
                         if (isNotDuplicate) {
                             ids.add(set2.getString(1));
                         }
+                    }*/
+                    ArrayList<String> search = customerBO.search(this.search.getText());
+                    for (String s : search) {
+                        ids.add(s);
                     }
                 }
                 if (rBtnCoach.isSelected()) {

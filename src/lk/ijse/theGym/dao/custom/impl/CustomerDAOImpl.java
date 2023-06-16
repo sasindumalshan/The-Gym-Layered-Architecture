@@ -2,8 +2,10 @@ package lk.ijse.theGym.dao.custom.impl;
 
 
 import lk.ijse.theGym.dao.custom.CustomerDAO;
+import lk.ijse.theGym.dto.projection.CustomerPackageProjection;
 import lk.ijse.theGym.entity.Customer;
 import lk.ijse.theGym.util.CrudUtil;
+import lk.ijse.theGym.util.DateTimeUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -92,7 +94,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public ArrayList<String> search(String s) throws SQLException, ClassNotFoundException {
-        return null;
+        ResultSet set= CrudUtil.crudUtil("SELECT customer_id FROM customer WHERE customer_id LIKE ? OR fist_name LIKE ? OR last_name LIKE ?",s+"%",s+"%",s+"%");
+        ArrayList<String> list=new ArrayList<>();
+        while (set.next()){
+            list.add(set.getString(1));
+        }
+        return list;
     }
 
     @Override
@@ -149,5 +156,42 @@ public class CustomerDAOImpl implements CustomerDAO {
             return set.getString(1);
         }
         return null;
+    }
+    @Override
+    public ArrayList<String> getAllYears() throws SQLException, ClassNotFoundException {
+        ResultSet set= CrudUtil.crudUtil("SELECT DISTINCT year FROM customer_payment");
+        ArrayList<String> list = new ArrayList<>();
+        while (set.next()) {
+            list.add(set.getString(1));
+        }
+        return list;
+    }
+    @Override
+    public  boolean updatePackage(String id,String packId) throws SQLException, ClassNotFoundException {
+        return CrudUtil.crudUtil("UPDATE customer SET package_id=?,package_activate_date=? WHERE customer_id=?",packId, DateTimeUtil.dateNow(),id);
+    }
+
+    @Override
+    public  ArrayList<CustomerPackageProjection> getIdForData(String id) throws SQLException, ClassNotFoundException {
+        ResultSet set= CrudUtil.crudUtil("SELECT " +
+                "customer.customer_id," +
+                "customer.fist_name," +
+                "customer.last_name," +
+                "customer.e_mail," +
+                "customer.nic," +
+                "package.package_price " +
+                "FROM customer INNER JOIN package ON customer.package_id = package.package_Id WHERE customer.customer_id=?",id);
+        ArrayList<CustomerPackageProjection>list=new ArrayList<>();
+        while (set.next()){
+          list.add(new CustomerPackageProjection(
+                  set.getString(1),
+                  set.getString(2),
+                  set.getString(3),
+                  set.getString(4),
+                  set.getString(5),
+                  Double.parseDouble(set.getString(6))
+          ));
+        }
+        return list;
     }
 }

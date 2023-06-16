@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.CustomerBO;
 import lk.ijse.theGym.dto.CustomerPaymentDTO;
-import lk.ijse.theGym.model.CustomerController;
+import lk.ijse.theGym.dto.projection.CustomerPackageProjection;
 import lk.ijse.theGym.model.CustomerPaymentController;
 import lk.ijse.theGym.model.PackController;
 import lk.ijse.theGym.util.DateTimeUtil;
@@ -98,9 +98,10 @@ public class MonthlyPaymentFromController implements Initializable {
 
     private void setYears() {
         try {
-            ResultSet set = CustomerController.getAllYears();
-            while (set.next()) {
-                currentYear.add(set.getString(1));
+            //  ResultSet set = CustomerController.getAllYears();
+            ArrayList<String> allYears = customerBO.getAllYears();
+            for (String s : allYears) {
+                currentYear.add(s);
             }
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
@@ -206,9 +207,9 @@ public class MonthlyPaymentFromController implements Initializable {
         } else {
             String packageId = null;
             try {
-               // ResultSet set = CustomerController.getPackage(lblId.getText());
+                // ResultSet set = CustomerController.getPackage(lblId.getText());
                 ArrayList<String> aPackage = customerBO.getPackage(lblId.getText());
-                for (String s:aPackage) {
+                for (String s : aPackage) {
                     packageId = s;
                 }
             } catch (SQLException | ClassNotFoundException throwables) {
@@ -235,7 +236,8 @@ public class MonthlyPaymentFromController implements Initializable {
 
                 }
                 if (package1Selected | package2Selected | package3Selected) {
-                    if (CustomerController.updatePackage(lblId.getText(), packageDetails.get(packageDetailsIndex).getId())) {
+//                    CustomerController.updatePackage(lblId.getText(), packageDetails.get(packageDetailsIndex).getId())
+                    if (customerBO.updatePackage(lblId.getText(), packageDetails.get(packageDetailsIndex).getId())) {
                         System.out.println("updated package");
                     }
                 }
@@ -344,7 +346,7 @@ public class MonthlyPaymentFromController implements Initializable {
     private void searchId() {
         try {
 //            CustomerController.isIdExists(lblId.getText())
-            if (customerBO.getCustomer(lblId.getText())!=null) {
+            if (customerBO.getCustomer(lblId.getText()) != null) {
                 System.out.println("is id exists");
                 lblId.setStyle("-fx-border-color: white;-fx-text-fill: white;");
                 if (CustomerPaymentController.isAlreadyPay(lblId.getText())) {
@@ -353,17 +355,17 @@ public class MonthlyPaymentFromController implements Initializable {
                     Notification.notificationWARNING("Already pay this month", "payed");
                     lblId.clear();
                 } else {
-                    ResultSet set = CustomerController.getIdForData(lblId.getText());
-                    if (set.next()) {
-                        txtName.setText(set.getString(2) + " " + set.getString(3));
-                        txtEmail.setText(set.getString(4));
-                        txtNic.setText(set.getString(5));
-                        if (package2Selected | package1Selected | package3Selected) {
-                        } else {
-                            txtPayment.setText(set.getString(6));
-                        }
-
+                    // ResultSet set = CustomerController.getIdForData(lblId.getText());
+                    ArrayList<CustomerPackageProjection> data = customerBO.getIdForData(lblId.getText());
+                    txtName.setText(data.get(0).getFistNAme() + " " + data.get(0).getLastName());
+                    txtEmail.setText(data.get(0).geteMail());
+                    txtNic.setText(data.get(0).getNic());
+                    if (package2Selected | package1Selected | package3Selected) {
+                    } else {
+                        txtPayment.setText(String.valueOf(data.get(0).getPackage_price()));
                     }
+
+
                 }
             } else {
                 lblId.setStyle("-fx-border-color: red;-fx-text-fill: red;");

@@ -18,17 +18,17 @@ public class CustomerController {
         return set.next();
     }*/
 
-    public static ResultSet getIdForData(String id) throws SQLException, ClassNotFoundException {
+    /*public static ResultSet getIdForData(String id) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT customer.customer_id,customer.fist_name,customer.last_name,customer.e_mail,customer.nic,package.package_price FROM customer INNER JOIN package ON customer.package_id = package.package_Id WHERE customer.customer_id=?",id);
-    }
+    }*/
 
-    public static boolean updatePackage(String id,String packId) throws SQLException, ClassNotFoundException {
+   /* public static boolean updatePackage(String id,String packId) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("UPDATE customer SET package_id=?,package_activate_date=? WHERE customer_id=?",packId, DateTimeUtil.dateNow(),id);
-    }
+    }*/
 
-    public static ResultSet getAllYears() throws SQLException, ClassNotFoundException {
+    /*public static ResultSet getAllYears() throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT DISTINCT year FROM customer_payment");
-    }
+    }*/
 
     /*public static ResultSet getIdData(String id) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT * FROM customer WHERE customer_id=?",id);
@@ -72,14 +72,14 @@ public class CustomerController {
         System.out.println("C C"+id);
         return CrudUtil.crudUtil("SELECT * FROM customer WHERE customer_id=?",id);
     }*/
-
+/*
     public static ResultSet getSearchIdData(String id) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT customer_id FROM customer WHERE customer_id LIKE ?",id+"%");
     }
 
     public static ResultSet getSearchNameData(String name) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT * FROM customer WHERE fist_name LIKE ? OR  last_name LIKE ?",name+"%",name+"%");
-    }
+    }*/
 
     /*public static ResultSet getSearchAllData(String id) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT * FROM customer WHERE customer_id=?",id);

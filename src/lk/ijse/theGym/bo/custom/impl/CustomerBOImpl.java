@@ -5,8 +5,11 @@ import lk.ijse.theGym.bo.custom.CustomerBO;
 import lk.ijse.theGym.dao.DAOFactory;
 import lk.ijse.theGym.dao.custom.CustomerDAO;
 import lk.ijse.theGym.dto.CustomerDTO;
+import lk.ijse.theGym.dto.projection.CustomerPackageProjection;
 import lk.ijse.theGym.entity.Customer;
 import lk.ijse.theGym.model.CustomerController;
+import lk.ijse.theGym.util.CrudUtil;
+import lk.ijse.theGym.util.DateTimeUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,4 +84,26 @@ public class CustomerBOImpl implements CustomerBO {
     public String getPackageUsageCount(String id) throws SQLException, ClassNotFoundException {
         return customerDAO.getPackageUsageCount(id);
     }
+
+    @Override
+    public ArrayList<String> getAllYears() throws SQLException, ClassNotFoundException {
+        return customerDAO.getAllYears();
+    }
+
+    @Override
+    public boolean updatePackage(String id, String packId) throws SQLException, ClassNotFoundException {
+        return customerDAO.updatePackage(id,packId);
+    }
+
+    @Override
+    public ArrayList<String> search(String id) throws SQLException, ClassNotFoundException {
+        return customerDAO.search(id);
+    }
+
+    @Override
+    public ArrayList<CustomerPackageProjection> getIdForData(String id) throws SQLException, ClassNotFoundException {
+        return customerDAO.getIdForData(id);
+    }
+
+
 }

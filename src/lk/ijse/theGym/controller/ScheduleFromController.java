@@ -16,6 +16,7 @@ import lk.ijse.theGym.bo.custom.CoachBO;
 import lk.ijse.theGym.bo.custom.CustomerBO;
 import lk.ijse.theGym.dto.CoachDTO;
 import lk.ijse.theGym.dto.CustomerDTO;
+import lk.ijse.theGym.dto.projection.CustomerPackageProjection;
 import lk.ijse.theGym.model.CoachController;
 import lk.ijse.theGym.model.CustomerController;
 import lk.ijse.theGym.model.ExerciseController;
@@ -53,10 +54,9 @@ public class ScheduleFromController implements Initializable {
 
     public void memberOnAction(ActionEvent actionEvent) {
         try {
-            ResultSet set = CustomerController.getIdForData(String.valueOf(comboMember.getValue()));
-            if (set.next()) {
-                memberName.setText(set.getString(2) + " " + set.getString(3));
-            }
+            //ResultSet set = CustomerController.getIdForData(String.valueOf(comboMember.getValue()));
+            ArrayList<CustomerPackageProjection> idForData = customerBO.getIdForData(String.valueOf(comboMember.getValue()));
+            memberName.setText(idForData.get(0).getFistNAme() + " " + idForData.get(0).getLastName());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
