@@ -6,7 +6,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import lk.ijse.theGym.model.SupplierController;
+import lk.ijse.theGym.bo.BoFactory;
+import lk.ijse.theGym.bo.custom.SupplierBO;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class SupplierDetailBarController {
     public Text txtContactNo;
     public JFXButton btnDelete;
     public JFXButton btnUpdate;
+    SupplierBO supplierBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SupplierBO);
 
     public void setData(String supplier_id, String company_name, String location, String mobile_no) {
         txtCompanyName.setText(company_name);
@@ -29,11 +31,12 @@ public class SupplierDetailBarController {
 
     public void deleteOnAction(ActionEvent actionEvent) {
 
-        Alert alert=new Alert(Alert.AlertType.WARNING,"Are your sure", ButtonType.YES,ButtonType.NO);
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Are your sure", ButtonType.YES, ButtonType.NO);
         alert.showAndWait();
-        if (alert.getResult().equals(ButtonType.YES)){
+        if (alert.getResult().equals(ButtonType.YES)) {
             try {
-                boolean isDeleted = SupplierController.removeSupplier(txtSupplierId.getText());
+                //boolean isDeleted = SupplierController.removeSupplier(txtSupplierId.getText());
+                boolean isDeleted = supplierBO.delete(txtSupplierId.getText());
                 if (isDeleted) {
                     SupplierFromController.getInstance().setAllSuppliersCount();
                     SupplierFromController.getInstance().setAllIdForLoadAllSupplier();

@@ -9,7 +9,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import lk.ijse.theGym.model.ScheduleController;
+import lk.ijse.theGym.bo.BoFactory;
+import lk.ijse.theGym.bo.custom.ScheduleBO;
 import lk.ijse.theGym.dto.ExercisesDTO;
 import lk.ijse.theGym.dto.ScheduleDetailsDTO;
 
@@ -125,7 +126,7 @@ public class ScheduleBarController implements Initializable {
             stepPane.setVisible(false);
         }
     }
-
+    ScheduleBO scheduleBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ScheduleBO);
     public void okOnMouseClick(MouseEvent mouseEvent) {
         if (update){
             update=false;
@@ -135,7 +136,11 @@ public class ScheduleBarController implements Initializable {
             btnUpdate.setVisible(true);
             btnDelete.setVisible(true);
             try {
-                if (ScheduleController.update(new ExercisesDTO(
+                /*ScheduleController.update(new ExercisesDTO(
+                        txtID.getText(),
+                        lblExe.getText()
+                ))*/
+                if (scheduleBO.update(new ExercisesDTO(
                         txtID.getText(),
                         lblExe.getText()
                 ))) {
@@ -155,7 +160,8 @@ public class ScheduleBarController implements Initializable {
             delete=false;
             update=false;
             try {
-                if (ScheduleController.remove(txtID.getText())){
+//                ScheduleController.remove(txtID.getText())
+                if (scheduleBO.remove(txtID.getText())){
                     ScheduleFromController.getController().setData();
                 }
             } catch (SQLException | ClassNotFoundException throwables) {

@@ -5,13 +5,13 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.theGym.model.SupplierController;
+import lk.ijse.theGym.bo.BoFactory;
+import lk.ijse.theGym.bo.custom.SupplierBO;
 import lk.ijse.theGym.dto.SupplierDTO;
 import lk.ijse.theGym.util.Navigation;
 import lk.ijse.theGym.util.Notification;
 import lk.ijse.theGym.util.RegexUtil;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AddSupplierFromController {
@@ -20,13 +20,15 @@ public class AddSupplierFromController {
     public JFXTextField txtLocation;
     public JFXTextField txtEmail;
     public JFXButton btnAdd;
+    SupplierBO supplierBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SupplierBO);
 
     public void addOnAction(ActionEvent actionEvent) {
         if (txtEmail.getText().equals("") | txtLocation.getText().equals("")| txtCompanyName.getText().equals("")| txtMobileNo.getText().equals("")){
             Notification.notificationWARNING("Please Entre data","Empty Data ");
         }else {
             try {
-                boolean isAdded = SupplierController.addNewSupplier(new SupplierDTO(txtCompanyName.getText(), getNextId(), txtEmail.getText(), txtMobileNo.getText(), txtLocation.getText()));
+//                boolean isAdded = SupplierController.addNewSupplier(new SupplierDTO(txtCompanyName.getText(), getNextId(), txtEmail.getText(), txtMobileNo.getText(), txtLocation.getText()));
+                boolean isAdded = supplierBO.save(new SupplierDTO(txtCompanyName.getText(), getNextId(), txtEmail.getText(), txtMobileNo.getText(), txtLocation.getText()));
                 if (isAdded) {
                     Notification.notification("Successful Added","Suppler is Added");
                     SupplierFromController.getInstance().setAllSuppliersCount();
@@ -46,9 +48,9 @@ public class AddSupplierFromController {
     private String getNextId() {
         String id=null;
         try {
-            ResultSet set = SupplierController.getLarstId();
-            while (set.next()) {
-                id=set.getString(1);
+          /*  ArrayList<String> lastId = supplierBO.getLastId();
+            for (String s:lastId) {
+                id=s;
             }
             try {
                 String[] S = id.split("S00");
@@ -57,13 +59,13 @@ public class AddSupplierFromController {
                 return "S00"+Next;
             }catch (NullPointerException e){
                 return "S001";
-            }
+            }*/
+            return supplierBO.getLastId();
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
         return "S001";
-
-        }
+    }
 //===============================================================
     public void mobile(KeyEvent keyEvent) {
         RegexUtil.regex(btnAdd, txtMobileNo, txtMobileNo.getText(), "0((11)|(7(7|0|8|4|9|1|[3-7]))|(3[1-8])|(4(1|5|7))|(5(1|2|4|5|7))|(6(3|[5-7]))|([8-9]1))[0-9]{7}", "-fx-text-fill: white");

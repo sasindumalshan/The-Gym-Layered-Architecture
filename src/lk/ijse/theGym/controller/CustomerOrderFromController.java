@@ -15,11 +15,11 @@ import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.CustomerBO;
 import lk.ijse.theGym.bo.custom.ItemBo;
+import lk.ijse.theGym.bo.custom.OrdersBO;
 import lk.ijse.theGym.db.DBConnection;
 import lk.ijse.theGym.dto.CustomerDTO;
 import lk.ijse.theGym.dto.ItemsDTO;
 import lk.ijse.theGym.dto.OrderDTO;
-import lk.ijse.theGym.model.OrderController;
 import lk.ijse.theGym.util.DateTimeUtil;
 import lk.ijse.theGym.util.Notification;
 import lk.ijse.theGym.util.RegexUtil;
@@ -30,7 +30,6 @@ import net.sf.jasperreports.view.JasperViewer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -313,6 +312,7 @@ public class CustomerOrderFromController implements Initializable {
         return customerBO.getCustomer(customer_id)!=null;
     }
 static String oid=null;
+    OrdersBO ordersBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.OrdersBO);
     public void payOnAction(ActionEvent actionEvent) {
         try {
             if ( lblCustomerId.getText().equals("")  | lblBalance.getText().equals("")) {
@@ -320,7 +320,18 @@ static String oid=null;
                 btnPay.setDisable(true);
             } else {
                 oid=nextOrderId();
-                if (OrderController.PlaceOrder(new OrderDTO(
+
+               /* OrderController.PlaceOrder(new OrderDTO(
+                                oid,
+                                DateTimeUtil.timeNow(),
+                                DateTimeUtil.dateNow(),
+                                Double.parseDouble(txtTotal.getText()),
+                                lblCustomerId.getText()),
+                        ids
+                )*/
+
+                if (ordersBO.PlaceOrder(
+                        new OrderDTO(
                                 oid,
                                 DateTimeUtil.timeNow(),
                                 DateTimeUtil.dateNow(),
@@ -363,21 +374,8 @@ static String oid=null;
     }
 
     private String nextOrderId() {
-        String id=null;
      try {
-         ResultSet set=OrderController.getLastOrderId();
-        while (set.next()){
-             id=set.getString(1);
-         }
-        try {
-            String[] O = id.split("O00");
-            int n= Integer.parseInt(O[1]);
-            n++;
-            return "O00"+n;
-        }catch (NullPointerException e){
-            return "O001" ;
-        }
-
+        return ordersBO.getLastOrderId();
      } catch (SQLException | ClassNotFoundException throwables) {
          throwables.printStackTrace();
      }

@@ -9,7 +9,6 @@ import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.ItemBo;
 import lk.ijse.theGym.dto.ItemsDTO;
-import lk.ijse.theGym.model.ItemsController;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;
@@ -26,7 +25,7 @@ public class ItemBarController {
     ItemBo itemBo = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ITEM_BO);
 
     public void UpdateOnAction(ActionEvent actionEvent) throws IOException {
-        ItemsController.itemCode = txtItemCode.getText();
+        UpdateItemFromController.itemCode = txtItemCode.getText();
         Navigation.popupNavigation("UpdateItemFrom.fxml");
 
     }
@@ -59,7 +58,8 @@ public class ItemBarController {
     }
 
     public void viewDataOnMouseClick(MouseEvent mouseEvent) throws IOException {
-        ItemsController.itemCode = txtItemCode.getText();
+       // UpdateItemFromController.itemCode = txtItemCode.getText();
+        ViewItemFromController.itemCode = txtItemCode.getText();
         Navigation.popupNavigation("ViewItemFrom.fxml");
 
 

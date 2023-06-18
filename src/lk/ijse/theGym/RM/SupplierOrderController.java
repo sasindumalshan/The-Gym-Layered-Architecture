@@ -1,4 +1,4 @@
-package lk.ijse.theGym.model;
+package lk.ijse.theGym.RM;
 
 import lk.ijse.theGym.db.DBConnection;
 import lk.ijse.theGym.dto.SupplierOrderDTO;
@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SupplierOrderController {
-    public static ResultSet getIds() throws SQLException, ClassNotFoundException {
+   /* public static ResultSet getIds() throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT order_id FROM Suppler_Order ORDER BY LENGTH(order_id),order_id");
-    }
+    }*/
 
-    public static boolean setOrder(ArrayList<SupplierOrderDetailsDTO> orderDetails, SupplierOrderDTO supplierOrder) throws SQLException {
+   /* public static boolean setOrder(ArrayList<SupplierOrderDetailsDTO> orderDetails, SupplierOrderDTO supplierOrder) throws SQLException {
         Connection connection = null;
         try {
             connection = DBConnection.getInstance().getConnection();
@@ -43,9 +43,9 @@ public class SupplierOrderController {
         }
 
         return false;
-    }
+    }*/
 
-    private static boolean setOrder(SupplierOrderDTO supplierOrder) throws SQLException, ClassNotFoundException {
+    /*private static boolean setOrder(SupplierOrderDTO supplierOrder) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("INSERT INTO suppler_order VALUES (?,?,?,?,?)",
                 supplierOrder.getOrder_id(),
                 supplierOrder.getTotal(),
@@ -54,9 +54,9 @@ public class SupplierOrderController {
                 supplierOrder.getTime()
 
         );
-    }
+    }*/
 
-    public static ResultSet getAllIds() throws SQLException, ClassNotFoundException {
+   /* public static ResultSet getAllIds() throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT order_id FROM Suppler_Order");
-    }
+    }*/
 }

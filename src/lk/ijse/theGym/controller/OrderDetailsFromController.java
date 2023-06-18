@@ -10,17 +10,19 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import lk.ijse.theGym.model.OrderDetailsController;
+import lk.ijse.theGym.bo.BoFactory;
+import lk.ijse.theGym.bo.custom.Order_detailsBO;
+import lk.ijse.theGym.bo.custom.Suppler_orderBO;
+import lk.ijse.theGym.dto.OrderDTO;
 import lk.ijse.theGym.util.DateTimeUtil;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class OrderDetailsFromController implements Initializable {
+public class OrderDetailsFromController<Supplier_orderBO> implements Initializable {
     public AnchorPane anchorpane;
     public ScrollPane scrollPane;
     public VBox vBox;
@@ -44,9 +46,10 @@ public class OrderDetailsFromController implements Initializable {
     private void setData(String date) {
         vBox.getChildren().clear();
         try {
-            ResultSet set = OrderDetailsController.getAllData(date);
-            while (set.next()) {
-                navigation(set.getString(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5));
+            //ResultSet set = OrderDetailsController.getAllData(date);
+            ArrayList<OrderDTO> allData = order_detailsBO.getAllData(date);
+            for (OrderDTO s:allData) {
+                navigation(s.getCustomer_id(), s.getDate(), s.getTime(), s.getOrder_id(), String.valueOf(s.getFinal_total()));
             }
         } catch (SQLException | IOException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
@@ -54,16 +57,18 @@ public class OrderDetailsFromController implements Initializable {
     }
 
     ArrayList<String> year = new ArrayList<>();
+    Order_detailsBO order_detailsBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.Order_detailsBO);
 
     private void setComboYear() {
         try {
             year.clear();
             year.add(DateTimeUtil.yearNow());
 
-            ResultSet set = OrderDetailsController.getAllYears();
-            while (set.next()) {
+           // ResultSet set = OrderDetailsController.getAllYears();
+            ArrayList<String> allYears = order_detailsBO.getAllYears();
+            for (String s:allYears) {
                 for (int i = 0; i < year.size(); i++) {
-                    String[] split = set.getString(1).split("-");
+                    String[] split = s.split("-");
 
                     if (!year.get(i).equals(split[0])) {
                         year.add(split[0]);
@@ -88,7 +93,7 @@ public class OrderDetailsFromController implements Initializable {
         controller.setData(customerId, date, time, orderId, total);
         vBox.getChildren().add(root);
     }
-
+    Suppler_orderBO suppler_orderBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.Suppler_orderBO);
     public void searchOnKeyReleased(KeyEvent keyEvent) {
         vBox.getChildren().clear();
         if (search.getText().equals("")){
@@ -99,15 +104,16 @@ public class OrderDetailsFromController implements Initializable {
             searchIds.clear();
             vBox.getChildren().clear();
             try {
-                ResultSet set = OrderDetailsController.searchIDOrCustomerId(search.getText());
-                while (set.next()) {
+              //  ResultSet set = OrderDetailsController.searchIDOrCustomerId(search.getText());
+                ArrayList<String> list = suppler_orderBO.searchIDOrCustomerId(search.getText());
+                for (String s:list) {
                     for (int i = 0; i < searchIds.size(); i++) {
-                        if (!searchIds.get(i).equals(set.getString(1))) {
-                            searchIds.add(set.getString(1));
+                        if (!searchIds.get(i).equals(s)) {
+                            searchIds.add(s);
                         }
                     }
                     if (searchIds.isEmpty()) {
-                        searchIds.add(set.getString(1));
+                        searchIds.add(s);
                     }
 
                 }
@@ -125,9 +131,10 @@ public class OrderDetailsFromController implements Initializable {
         vBox.getChildren().clear();
         try {
             for (int i = 0; i < searchIds.size(); i++) {
-                ResultSet set=OrderDetailsController.getDataForOrderId(searchIds.get(i));
-                while (set.next()){
-                    navigation(set.getString(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5));
+              //  ResultSet set=OrderDetailsController.getDataForOrderId(searchIds.get(i));
+                ArrayList<OrderDTO> dataForOrderId = order_detailsBO.getDataForOrderId(searchIds.get(i));
+                for (OrderDTO s:dataForOrderId){
+                    navigation(s.getCustomer_id(), s.getDate(), s.getTime(), s.getOrder_id(), String.valueOf(s.getFinal_total()));
                 }
             }
         } catch (SQLException | ClassNotFoundException | IOException throwables) {

@@ -2,7 +2,6 @@ package lk.ijse.theGym.controller;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import lk.ijse.theGym.model.EmployeeController;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;

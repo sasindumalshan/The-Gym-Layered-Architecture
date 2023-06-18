@@ -11,7 +11,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.ItemBo;
-import lk.ijse.theGym.model.ItemsController;
 import lk.ijse.theGym.dto.ItemsDTO;
 import lk.ijse.theGym.util.Navigation;
 import lk.ijse.theGym.util.Notification;

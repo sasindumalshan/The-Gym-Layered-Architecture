@@ -1,4 +1,4 @@
-package lk.ijse.theGym.model;
+package lk.ijse.theGym.RM;
 
 import lk.ijse.theGym.dto.EmployeeDTO;
 import lk.ijse.theGym.util.CrudUtil;
@@ -94,22 +94,22 @@ public class EmployeeController {
         return CrudUtil.crudUtil("SELECT employee.employee_id,employee.fist_name,employee.last_name,employee.roll,employee_attendance.date,employee_attendance.time FROM employee_attendance INNER JOIN Employee ON Employee_Attendance.employee_id = Employee.employee_id WHERE employee_attendance.date=?",dateNow);
     }*/
 
-    public static boolean idExists(String id) throws SQLException, ClassNotFoundException {
+    /*public static boolean idExists(String id) throws SQLException, ClassNotFoundException {
         ResultSet set=CrudUtil.crudUtil("SELECT employee_id FROM employee WHERE employee_id=?",id);
         return set.next();
-    }
+    }*/
 
-    public static ResultSet getAllIds() throws SQLException, ClassNotFoundException {
+   /* public static ResultSet getAllIds() throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT employee_id FROM  employee");
-    }
+    }*/
 
-    public static ResultSet getDataForId(String cus_id) throws SQLException, ClassNotFoundException {
+   /* public static ResultSet getDataForId(String cus_id) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT fist_name,last_name ,nic,employee_id,salary_id FROM employee WHERE employee_id=?",cus_id);
-    }
+    }*/
 
-    public static ResultSet getSalaryCount(String salary_id) throws SQLException, ClassNotFoundException {
+    /*public static ResultSet getSalaryCount(String salary_id) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT COUNT(*) FROM employee WHERE salary_Id=?",salary_id);
-    }
+    }*/
 
     /*public static ResultSet getCoachCunt() throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT COUNT(*) FROM employee");

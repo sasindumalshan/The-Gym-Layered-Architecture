@@ -13,12 +13,11 @@ import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.ItemBo;
 import lk.ijse.theGym.dto.ItemsDTO;
-import lk.ijse.theGym.model.ItemsController;
+import lk.ijse.theGym.entity.Item;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -70,9 +69,10 @@ public class StoreViewFromController implements Initializable {
 
     private void setLimitedItem() {
         try {
-            ResultSet set=ItemsController.limitedStock();
-            if (set.next()){
-                txtLimitedItems.setText(set.getString(1)); }
+           /* ResultSet set=ItemsController.limitedStock();
+            if (set.next()){*/
+                txtLimitedItems.setText(itemBo.limitedStock());
+            //}
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -82,10 +82,10 @@ public class StoreViewFromController implements Initializable {
 
     private void setAllItemsCount() {
         try {
-            ResultSet set = ItemsController.CountOfAllItems();
-            if (set.next()){
-                txtAllItems.setText(set.getString(1));
-            }
+            /*ResultSet set = ItemsController.CountOfAllItems();
+            if (set.next()){*/
+                txtAllItems.setText(itemBo.CountOfAllItems());
+            //}
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -95,9 +95,10 @@ public class StoreViewFromController implements Initializable {
         ArrayList<String> category = new ArrayList<>();
         category.add("All Items");
         try {
-            ResultSet set = ItemsController.getAllCategory();
-            while (set.next()) {
-                category.add(set.getString(1));
+//            ResultSet set = ItemsController.getAllCategory();
+            ArrayList<String> allCategory = itemBo.getAllCategory();
+            for (String s:allCategory) {
+                category.add(s);
             }
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
@@ -128,9 +129,10 @@ public class StoreViewFromController implements Initializable {
             loadAllItems();
         } else {
             try {
-                ResultSet set = ItemsController.getSelectedCategoryData(String.valueOf(comboCategory.getValue()));
-                while (set.next()) {
-                    navigation(set.getString(1), set.getString(2), set.getString(6), set.getString(4), set.getString(5));
+//                ResultSet set = ItemsController.getSelectedCategoryData(String.valueOf(comboCategory.getValue()));
+                ArrayList<Item> selectedCategoryData = itemBo.getSelectedCategoryData(String.valueOf(comboCategory.getValue()));
+                for (Item item:selectedCategoryData) {
+                    navigation(item.getItem_id(), item.getItem_name(), item.getBrand(), item.getQut()+"", item.getPrice()+"");
                 }
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();

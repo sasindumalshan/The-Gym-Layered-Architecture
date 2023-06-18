@@ -6,14 +6,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.theGym.model.SupplierController;
+import lk.ijse.theGym.bo.BoFactory;
+import lk.ijse.theGym.bo.custom.SupplierBO;
+import lk.ijse.theGym.entity.Supplier;
 import lk.ijse.theGym.dto.SupplierDTO;
 import lk.ijse.theGym.util.Navigation;
 import lk.ijse.theGym.util.Notification;
 import lk.ijse.theGym.util.RegexUtil;
 
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -36,24 +37,27 @@ public class UpdateSupplierFromController implements Initializable {
 
     private void setCurrentlyData() {
         try {
-            ResultSet set = SupplierController.getSupplierDetails(id);
-            if (set.next()) {
-                txtCompanyName.setText(set.getString(1));
-                txtEmail.setText(set.getString(3));
-                txtLocation.setText(set.getString(5));
-                txtMobilNo.setText(set.getString(4));
-            }
+          //  ResultSet set = SupplierController.getSupplierDetails(id);
+            Supplier supplier = supplierBO.getSupplier(id);
+
+                txtCompanyName.setText(supplier.getCompany_name());
+                txtEmail.setText(supplier.getEmail());
+                txtLocation.setText(supplier.getLocation());
+                txtMobilNo.setText(supplier.getMobile_no());
+
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
     }
+    SupplierBO supplierBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SupplierBO);
 
     public void updateOnAction(ActionEvent actionEvent) {
         if (txtEmail.getText().equals("") | txtLocation.getText().equals("")| txtCompanyName.getText().equals("")| txtMobilNo.getText().equals("")){
             Notification.notificationWARNING("Please Entre data","Empty Data ");
         }else {
             try {
-                boolean isUpdated = SupplierController.updateSupplier(new SupplierDTO(
+//                boolean isUpdated = SupplierController.updateSupplier(new SupplierDTO(
+                boolean isUpdated = supplierBO.update(new SupplierDTO(
                         txtCompanyName.getText(),
                         id,
                         txtEmail.getText(),

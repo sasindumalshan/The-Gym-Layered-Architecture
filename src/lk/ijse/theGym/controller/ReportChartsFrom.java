@@ -10,6 +10,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import lk.ijse.theGym.bo.BoFactory;
+import lk.ijse.theGym.bo.custom.OrdersBO;
+import lk.ijse.theGym.bo.custom.Supplier_order_detailsBO;
 import lk.ijse.theGym.model.*;
 import lk.ijse.theGym.util.DateTimeUtil;
 
@@ -19,6 +22,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+
+import static lk.ijse.theGym.bo.BoFactory.BOTypes.OrdersBO;
 
 public class ReportChartsFrom implements Initializable {
     public Text txtReport;
@@ -59,15 +64,16 @@ public class ReportChartsFrom implements Initializable {
         clear();
         try {
             for (String month : allMonth) {
-                ResultSet set = SupplierOrderDetailsController.getMonthlyReport(String.valueOf(rBtnSelectYear.getValue() + "-" + setMonthForQulQuery(month) + "-" + "%"));
-                if (set.next()) {
-                    if (set.getString(1) == null) {
+               // ResultSet set = SupplierOrderDetailsController.getMonthlyReport(String.valueOf(rBtnSelectYear.getValue() + "-" + setMonthForQulQuery(month) + "-" + "%"));
+                String monthlyReport = supplier_order_detailsBO.getMonthlyReport(String.valueOf(rBtnSelectYear.getValue() + "-" + setMonthForQulQuery(month) + "-" + "%"));
+                if (monthlyReport!=null) {
+                    if (monthlyReport == null) {
 //                        System.out.println("null");
                         supplierOder.add("0");
                     } else {
 
-                        supplierOder.add(set.getString(1));
-                        System.out.println(set.getString(1));
+                        supplierOder.add(monthlyReport);
+                        System.out.println(monthlyReport);
                     }
                 } else {
                     System.out.println("else");
@@ -99,12 +105,13 @@ public class ReportChartsFrom implements Initializable {
                 }
             }
             for (String month : allMonth) {
-                ResultSet set = OrderController.getMonthlyReport(String.valueOf(rBtnSelectYear.getValue() + "-" + setMonthForQulQuery(month) + "-" + "%"));
-                if (set.next()) {
-                    if (set.getString(1) == null) {
+                String lastOrderId = ordersBO.getLastOrderId();
+               // ResultSet set = OrderController.getMonthlyReport(String.valueOf(rBtnSelectYear.getValue() + "-" + setMonthForQulQuery(month) + "-" + "%"));
+                if (lastOrderId!=null) {
+                    if (lastOrderId == null) {
                         customerOder.add("0");
                     } else {
-                        customerOder.add(set.getString(1));
+                        customerOder.add(lastOrderId);
                     }
                 } else {
                     customerOder.add("0");
@@ -142,7 +149,7 @@ public class ReportChartsFrom implements Initializable {
 
 
     }
-
+    OrdersBO ordersBO= BoFactory.getBoFactory().getBO(OrdersBO);
     private void clear() {
         if (!supplierOder.isEmpty()) {
             supplierOder.clear();
@@ -186,13 +193,16 @@ public class ReportChartsFrom implements Initializable {
 
             for (String year : year) {
                 int orderTotal = 0;
-                ResultSet set = OrderController.getFinalTotalOnYear(year);
-                while (set.next()) {
+               // ResultSet set = OrderController.getFinalTotalOnYear(year);
 
-                    if (set.getString(1) == null) {
+                ArrayList<String> finalTotalOnYear = ordersBO.getFinalTotalOnYear(year);
+
+                for (String s:finalTotalOnYear) {
+
+                    if (s == null) {
                         orderTotal += 0;
                     } else {
-                        orderTotal += Integer.parseInt(set.getString(1));
+                        orderTotal += Integer.parseInt(s);
                     }
                 }
                 customerOder.add(String.valueOf(orderTotal));
@@ -200,13 +210,14 @@ public class ReportChartsFrom implements Initializable {
 
             for (String year : year) {
                 int supplierOrder = 0;
-                ResultSet set = SupplierOrderDetailsController.getFinalTotalOnYear(year);
-                while (set.next()) {
+               // ResultSet set = SupplierOrderDetailsController.getFinalTotalOnYear(year);
+                ArrayList<String> finalTotalOnYear = supplier_order_detailsBO.getFinalTotalOnYear(year);
+                for (String s:finalTotalOnYear) {
 
-                    if (set.getString(1) == null) {
+                    if (s== null) {
                         supplierOrder += 0;
                     } else {
-                        supplierOrder += Integer.parseInt(set.getString(1));
+                        supplierOrder += Integer.parseInt(s);
                     }
                 }
                 supplierOder.add(String.valueOf(supplierOrder));
@@ -270,6 +281,7 @@ public class ReportChartsFrom implements Initializable {
         setList(setChartLost(year, lost), setChartSupplierOrder(year, supplierOder), setChartCustomersOrder(year, customerOder), setChartProfit(year, Profit));
 
     }
+    Supplier_order_detailsBO supplier_order_detailsBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.Supplier_order_detailsBO);
 
     private void selectMonth() {
         clear();
@@ -299,24 +311,26 @@ public class ReportChartsFrom implements Initializable {
 
             }
             for (String countOfDay : days) {
-                ResultSet set = SupplierOrderDetailsController.getTotalOnDay(year + "-" + month + "-" + countOfDay);
-                if (set.next()) {
-                    if (set.getString(1) == null) {
+             //   ResultSet set = SupplierOrderDetailsController.getTotalOnDay(year + "-" + month + "-" + countOfDay);
+                String totalOnDay = supplier_order_detailsBO.getTotalOnDay(year + "-" + month + "-" + countOfDay);
+                if (totalOnDay!=null) {
+                    if (totalOnDay == null) {
                         supplierOder.add("0");
                     } else {
-                        supplierOder.add((set.getString(1)));
+                        supplierOder.add((totalOnDay));
                     }
                 } else {
                     supplierOder.add("0");
                 }
             }
             for (String countOfDay : days) {
-                ResultSet set = OrderController.getFinalTotalOnDay(year + "-" + month + "-" + countOfDay);
-                if (set.next()) {
-                    if (set.getString(1) == null) {
+                String finalTotalOnDay = ordersBO.getFinalTotalOnDay(year + "-" + month + "-" + countOfDay);
+                //ResultSet set = OrderController.getFinalTotalOnDay(year + "-" + month + "-" + countOfDay);
+                if (finalTotalOnDay!=null) {
+                    if (finalTotalOnDay == null) {
                         customerOder.add("0");
                     } else {
-                        customerOder.add(set.getString(1));
+                        customerOder.add(finalTotalOnDay);
                     }
                 } else {
                     customerOder.add("0");

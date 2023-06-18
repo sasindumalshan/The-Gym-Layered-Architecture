@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.CoachBO;
 import lk.ijse.theGym.bo.custom.CustomerBO;
+import lk.ijse.theGym.bo.custom.EmployeeBO;
 import lk.ijse.theGym.db.DBConnection;
 import lk.ijse.theGym.model.*;
 import lk.ijse.theGym.dto.CoachAttendanceDTO;
@@ -398,7 +399,7 @@ public class AttendanceFromController implements Initializable {
     }
 
     CustomerBO customerBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.CustomerBO);
-
+    EmployeeBO employeeBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.EMPLOYEE_BO);
     public void idOnkeyTyped(KeyEvent keyEvent) {
         try {
             setDataTodayAllAttendanceIds(CustomerAttendanceController.getAllIds());
@@ -419,7 +420,8 @@ public class AttendanceFromController implements Initializable {
                 } else {
                     mNot = true;
                 }
-                if (EmployeeController.idExists(txtId.getText())) {
+//                EmployeeController.idExists(txtId.getText())
+                if (employeeBO.get(txtId.getText())!=null) {
                     boolean added = EmployeeAttendanceController.setAttendance(new EmployeeAttendanceDTO(txtId.getText(), DateTimeUtil.dateNow(), DateTimeUtil.timeNow()));
                     if (added){
                         Notification.notification("Mark Attendance","successful Mark on today Attendance ");

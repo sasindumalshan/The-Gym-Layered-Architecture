@@ -14,18 +14,18 @@ import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.CoachBO;
 import lk.ijse.theGym.bo.custom.CustomerBO;
+import lk.ijse.theGym.bo.custom.ExercisesBO;
+import lk.ijse.theGym.bo.custom.ScheduleBO;
 import lk.ijse.theGym.dto.CoachDTO;
 import lk.ijse.theGym.dto.CustomerDTO;
 import lk.ijse.theGym.dto.projection.CustomerPackageProjection;
-import lk.ijse.theGym.model.ExerciseController;
-import lk.ijse.theGym.model.ScheduleController;
+import lk.ijse.theGym.entity.Schedule;
 import lk.ijse.theGym.dto.ExercisesDTO;
 import lk.ijse.theGym.dto.ScheduleDTO;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -73,11 +73,13 @@ public class ScheduleFromController implements Initializable {
         }
     }
 
+    ExercisesBO exercisesBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ExercisesBO);
+
     public void newOnAction(ActionEvent actionEvent) {
 
         if (btnNew.getText().equals("ADD")) {
             try {
-                if (ExerciseController.setExercises(
+                if (exercisesBO.setExercises(
                         new ExercisesDTO(
                                 nextId(),
                                 lblExe.getText()
@@ -100,16 +102,10 @@ public class ScheduleFromController implements Initializable {
         }
 
     }
-
+   // ExercisesBO exercisesBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ExercisesBO);
     private String nextId() {
         try {
-            ResultSet set = ExerciseController.getNextId();
-//           if (set.next()){
-//               String[] exes = set.getString(1).split("X0");
-//               int id= Integer.valueOf(exes[1]);
-//              id++;
-//              return "X0"+id;
-//           }
+          /*  ResultSet set = ExerciseController.getNextId();
             String id = null;
             while (set.next()) {
                 id = set.getString(1);
@@ -121,15 +117,15 @@ public class ScheduleFromController implements Initializable {
                 return "X0" + nextId;
             } catch (NullPointerException e) {
                 return "X01";
-            }
-
+            }*/
+           return exercisesBO.getNextId();
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
         return null;
 
     }
-
+    ScheduleBO scheduleBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ScheduleBO);
     public void donOnAction(ActionEvent actionEvent) {
         if (btnDone.getText().equals("Close")) {
             Navigation.close(actionEvent);
@@ -145,7 +141,16 @@ public class ScheduleFromController implements Initializable {
             }
             if (isFullFillArray) {
                 try {
-                    if (ScheduleController.setSchedule(
+
+                    /*ScheduleController.setSchedule(
+                            new ScheduleDTO(
+                                    String.valueOf( comboMember.getValue()),
+                                    getNextScheduleId(),
+                                    String.valueOf(comboCoach.getValue())
+                            ),ScheduleBarController.scheduleDetails
+                    )*/
+
+                    if (scheduleBO.setSchedule(
                             new ScheduleDTO(
                                     String.valueOf( comboMember.getValue()),
                                     getNextScheduleId(),
@@ -176,8 +181,8 @@ public class ScheduleFromController implements Initializable {
     private String getNextScheduleId() {
         try {
             String id=null;
-            ResultSet set =ScheduleController.getIds();
-            while (set.next()){
+//            ResultSet set =ScheduleController.getIds();
+            /*while (set.next()){
                 id=set.getString(1);
             }
            try {
@@ -187,7 +192,8 @@ public class ScheduleFromController implements Initializable {
                 return "S" + NextId;
             }catch (NullPointerException e){
                return "S1";
-           }
+           }*/
+            return scheduleBO.getIds();
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -221,9 +227,9 @@ public class ScheduleFromController implements Initializable {
                 "Suspended inverted row", "Barbell overhead press", "Barbell hip thrust"
         };
         try {
-            if (!ScheduleController.exsist("X01")) {
+            if (!scheduleBO.exists("X01")) {
                 for (int i = 0; i < ex.length; i++) {
-                    ScheduleController.setData(
+                    scheduleBO.setData(
                             new ExercisesDTO(
                                     nextId(),
                                     ex[i]
@@ -240,12 +246,13 @@ public class ScheduleFromController implements Initializable {
         vBox.getChildren().clear();
 
         try {
-            ResultSet set = ScheduleController.getAll();
-            while (set.next()) {
+           // ResultSet set = ScheduleController.getAll();
+            ArrayList<Schedule> all = scheduleBO.getAll();
+            for (Schedule schedule:all) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/lk/ijse/theGym/view/bar/SheduleBar.fxml"));
                 Parent root = loader.load();
                 ScheduleBarController controller = loader.getController();
-                controller.setData(set.getString(2), set.getString(1));
+                controller.setData(schedule.getSchedule_id(),schedule.getCustomer_id());
                 vBox.getChildren().add(root);
             }
 

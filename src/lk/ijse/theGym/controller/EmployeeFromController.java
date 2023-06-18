@@ -17,7 +17,6 @@ import lk.ijse.theGym.bo.custom.EmployeeBO;
 import lk.ijse.theGym.dto.EmployeeDTO;
 import lk.ijse.theGym.dto.projection.EmployeeAttendanceProjection;
 import lk.ijse.theGym.model.EmployeeAttendanceController;
-import lk.ijse.theGym.model.EmployeeController;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;

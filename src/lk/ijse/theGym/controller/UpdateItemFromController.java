@@ -11,18 +11,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.ItemBo;
-import lk.ijse.theGym.model.ItemsController;
 import lk.ijse.theGym.dto.ItemsDTO;
 import lk.ijse.theGym.util.Navigation;
 import lk.ijse.theGym.util.Notification;
 import lk.ijse.theGym.util.RegexUtil;
 
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class UpdateItemFromController implements Initializable {
+    public static String itemCode;
     public JFXTextField txtItemName;
     public JFXTextField txtPrice;
     public JFXTextField txtBrand;
@@ -62,17 +61,16 @@ public class UpdateItemFromController implements Initializable {
 
     public void setData() {
         try {
-            ResultSet set = ItemsController.viewAllItemDetails();
-            if (set.next()) {
-                txtItemCode.setText(set.getString(1));
-                txtPrice.setText(set.getString(5));
-                txtBrand.setText(set.getString(6));
-                txtItemName.setText(set.getString(2));
-                txtDescription.setText(set.getString(7));
-                combCategory.getItems().addAll(set.getString(3));
-            } else {
-                System.out.println("null");
-            }
+          //  ResultSet set = ItemsController.viewAllItemDetails();
+            ItemsDTO dto = itemBo.get(itemCode);
+
+                txtItemCode.setText(dto.getItem_id());
+                txtPrice.setText(String.valueOf(dto.getPrice()));
+                txtBrand.setText(dto.getBrand());
+                txtItemName.setText(dto.getItem_name());
+                txtDescription.setText(dto.getDescription());
+                combCategory.getItems().addAll(dto.getCategory());
+
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

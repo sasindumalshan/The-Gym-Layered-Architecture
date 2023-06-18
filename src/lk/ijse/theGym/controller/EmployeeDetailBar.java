@@ -9,7 +9,6 @@ import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.EmployeeBO;
 import lk.ijse.theGym.dto.EmployeeDTO;
-import lk.ijse.theGym.model.EmployeeController;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;

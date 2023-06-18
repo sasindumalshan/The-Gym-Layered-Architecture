@@ -17,4 +17,8 @@ public interface EmployeeBO extends CrudBO<EmployeeDTO,String> {
     ArrayList<EmployeeAttendanceProjection> getDateForEmployee(String dateNow) throws SQLException, ClassNotFoundException;
 
     ArrayList<String> search(String text) throws SQLException, ClassNotFoundException;
+
+    public String getSalaryCount(String salary_id) throws SQLException, ClassNotFoundException;
+
+    public ArrayList<String> getAllIds() throws SQLException, ClassNotFoundException;
 }

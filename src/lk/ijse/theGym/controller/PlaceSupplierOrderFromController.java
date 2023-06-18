@@ -7,13 +7,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.ItemBo;
+import lk.ijse.theGym.bo.custom.SupplierBO;
+import lk.ijse.theGym.bo.custom.Supplier_order_detailsBO;
 import lk.ijse.theGym.dto.ItemsDTO;
-import lk.ijse.theGym.model.ItemsController;
-import lk.ijse.theGym.model.SupplierController;
-import lk.ijse.theGym.model.SupplierOrderDetailsController;
+import lk.ijse.theGym.entity.Supplier;
 
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -31,10 +30,9 @@ public class PlaceSupplierOrderFromController implements Initializable {
 
     public void supplierIdOnAction(ActionEvent actionEvent) {
         try {
-            ResultSet set = SupplierController.getSupplierDetails(String.valueOf(combSupplierId.getValue()));
-            if (set.next()) {
-                txtCompanyName.setText(set.getString(1));
-            }
+           // ResultSet set = SupplierController.getSupplierDetails(String.valueOf(combSupplierId.getValue()));
+            Supplier supplier = supplierBO.getSupplier(String.valueOf(combSupplierId.getValue()));
+            txtCompanyName.setText(supplier.getSupplier_id());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -94,27 +92,30 @@ public class PlaceSupplierOrderFromController implements Initializable {
 //            DBConnection.getInstance().getConnection().setAutoCommit(true);
 //        }
 //    }
-
+    Supplier_order_detailsBO supplier_order_detailsBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.Supplier_order_detailsBO);
     private String getOrderId() {
         try {
-            ResultSet set = SupplierOrderDetailsController.getLastId();
+            /*ResultSet set = SupplierOrderDetailsController.getLastId();
             if (set.next()){
                String[] O00= set.getString(1).split("O00");
                int incrementId= Integer.parseInt(O00[1]);
                incrementId++;
                return "O00"+incrementId;
-            }
+            }*/
+            return supplier_order_detailsBO.getLastId();
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
         return "O001";
     }
+    SupplierBO supplierBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SupplierBO);
 
     private void setSupplierId() {
         try {
-            ResultSet set = SupplierController.getAllId();
-            while (set.next()) {
-                supplierId.add(set.getString(1));
+            //ResultSet set = SupplierController.getAllId();
+            ArrayList<String> allId = supplierBO.getAllId();
+            for (String s:allId) {
+                supplierId.add(s);
             }
             combSupplierId.getItems().addAll(supplierId);
         } catch (SQLException | ClassNotFoundException throwables) {

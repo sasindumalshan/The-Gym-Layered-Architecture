@@ -1,4 +1,4 @@
-package lk.ijse.theGym.model;
+package lk.ijse.theGym.RM;
 
 import lk.ijse.theGym.dto.ScheduleDTO;
 import lk.ijse.theGym.dto.ScheduleDetailsDTO;
@@ -8,7 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ScheduleDetailsController {
-    public static boolean setDetails(ArrayList<ScheduleDetailsDTO> scheduleDetails, ScheduleDTO schedule) throws SQLException, ClassNotFoundException {
+
+    /*public static boolean setDetails(ArrayList<ScheduleDetailsDTO> scheduleDetails, ScheduleDTO schedule) throws SQLException, ClassNotFoundException {
         for (int i = 0; i < scheduleDetails.size(); i++) {
             System.out.println("Steps "+scheduleDetails.get(i).getSteps());
             if (CrudUtil.crudUtil("INSERT INTO schedule_details VALUES (?,?,?)",
@@ -22,5 +23,5 @@ public class ScheduleDetailsController {
             }
         }
         return true;
-    }
+    }*/
 }

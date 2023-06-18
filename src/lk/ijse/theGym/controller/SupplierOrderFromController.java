@@ -15,18 +15,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.ItemBo;
+import lk.ijse.theGym.bo.custom.Suppler_orderBO;
+import lk.ijse.theGym.bo.custom.SupplierBO;
 import lk.ijse.theGym.dto.ItemsDTO;
 import lk.ijse.theGym.dto.SupplierOrderDTO;
 import lk.ijse.theGym.dto.SupplierOrderDetailsDTO;
-import lk.ijse.theGym.model.SupplierController;
-import lk.ijse.theGym.model.SupplierOrderController;
 import lk.ijse.theGym.util.DateTimeUtil;
 import lk.ijse.theGym.util.Navigation;
 import lk.ijse.theGym.util.RegexUtil;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -66,7 +65,16 @@ public class SupplierOrderFromController implements Initializable {
     public void OkOrderOnAction(ActionEvent actionEvent) {
         if (Double.parseDouble(txtTotal.getText()) > 0) {
             try {
-                if (SupplierOrderController.setOrder(orderDetails,
+
+              /*  SupplierOrderController.setOrder(orderDetails,
+                        new SupplierOrderDTO(getNextId(),
+                                txtTotal.getText(),
+                                lblCustomerId.getText(),
+                                DateTimeUtil.dateNow(),
+                                DateTimeUtil.timeNow()
+                        ))*/
+
+                if (suppler_orderBO.setOrder(orderDetails,
                         new SupplierOrderDTO(getNextId(),
                                 txtTotal.getText(),
                                 lblCustomerId.getText(),
@@ -86,13 +94,14 @@ public class SupplierOrderFromController implements Initializable {
         }
 
     }
-
+    Suppler_orderBO suppler_orderBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.Suppler_orderBO);
     private String getNextId() {
         String id = null;
         try {
-            ResultSet set = SupplierOrderController.getIds();
-            while (set.next()) {
-                id = set.getString(1);
+            //ResultSet set = SupplierOrderController.getIds();
+            /*ArrayList<String> ids = suppler_orderBO.getIds();
+            for (String s:ids) {
+                id = s;
 
             }
             try {
@@ -102,7 +111,8 @@ public class SupplierOrderFromController implements Initializable {
                 return "O" + nextId;
             } catch (NullPointerException e) {
                 return "O1";
-            }
+            }*/
+           return suppler_orderBO.getIds();
 
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
@@ -142,14 +152,15 @@ public class SupplierOrderFromController implements Initializable {
     public void supIdReleased(KeyEvent keyEvent) {
         searchSupperId();
     }
+    SupplierBO supplierBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SupplierBO);
 
     private void searchSupperId() {
         try {
-            ResultSet set = SupplierController.getComName(lblCustomerId.getText());
-            if (set.next()) {
-                txtName.setText(set.getString(1));
+            /*ResultSet set = SupplierController.getComName(lblCustomerId.getText());
+            if (set.next()) {*/
+                txtName.setText(supplierBO.getComName(lblCustomerId.getText()));
                 lblItemCode.requestFocus();
-            }
+           // }
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

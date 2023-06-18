@@ -1,6 +1,12 @@
 package lk.ijse.theGym.dao.custom;
 
-import lk.ijse.theGym.dao.CrudDAO;
+import lk.ijse.theGym.dto.ExercisesDTO;
 
-public interface ExercisesDAO extends CrudDAO<lk.ijse.theGym.entity.Exercises,String> {
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public interface ExercisesDAO {
+    ArrayList<String> getNextId() throws SQLException, ClassNotFoundException;
+
+    boolean setExercises(ExercisesDTO exercises) throws SQLException, ClassNotFoundException;
 }

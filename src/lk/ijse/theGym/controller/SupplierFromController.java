@@ -9,9 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import lk.ijse.theGym.model.SupplierController;
-import lk.ijse.theGym.model.SupplierOrderController;
-import lk.ijse.theGym.model.SupplierOrderDetailsController;
+import lk.ijse.theGym.bo.BoFactory;
+import lk.ijse.theGym.bo.custom.Suppler_orderBO;
+import lk.ijse.theGym.bo.custom.SupplierBO;
+import lk.ijse.theGym.bo.custom.Supplier_order_detailsBO;
+import lk.ijse.theGym.dto.projection.SupplierItemProjection;
+import lk.ijse.theGym.entity.Supplier;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;
@@ -45,24 +48,22 @@ public class SupplierFromController implements Initializable {
     public static SupplierFromController getInstance() {
         return instance;
     }
+    Supplier_order_detailsBO supplier_order_detailsBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.Supplier_order_detailsBO);
 
     private void setMonthlyOrders() {
         try {
-            ResultSet set = SupplierOrderDetailsController.getMonthlyOrders();
-            if (set.next()) {
-                txtMonthlyOrders.setText(set.getString(1));
-            }
+           // ResultSet set = SupplierOrderDetailsController.getMonthlyOrders();
+            //if (set.next()) {
+                txtMonthlyOrders.setText(supplier_order_detailsBO.getMonthlyOrders());
+           // }
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
     }
-
+    SupplierBO supplierBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SupplierBO);
     public void setAllSuppliersCount() {
         try {
-            ResultSet set = SupplierController.getAllSupplier();
-            if (set.next()) {
-                txtAllSuppliers.setText(set.getString(1));
-            }
+            txtAllSuppliers.setText(supplierBO.getCount());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -117,81 +118,85 @@ public class SupplierFromController implements Initializable {
         if (rBAllSuppliers.isSelected()) {
 
 
-            ResultSet set1 = SupplierController.getSearchName(search.getText());
-            while (set1.next()) {
+          //  ResultSet set1 = SupplierController.getSearchName(search.getText());
+            ArrayList<String> searchName = supplierBO.getSearchName(search.getText());
+            for (String s:searchName) {
                 boolean isNotDuplicate1 = true;
                 if (suoId.isEmpty()) {
-                    suoId.add(set1.getString(1));
+                    suoId.add(s);
                 }
                 for (int i = 0; i < suoId.size(); i++) {
-                    if (suoId.get(i).equals(set1.getString(1))) {
+                    if (suoId.get(i).equals(s)) {
                         isNotDuplicate1 = false;
                     }
                 }
                 if (isNotDuplicate1) {
-                    suoId.add(set1.getString(1));
+                    suoId.add(s);
                 }
             }
-            ResultSet set2 = SupplierController.getSearchId(search.getText());
-            while (set2.next()) {
+           // ResultSet set2 = SupplierController.getSearchId(search.getText());
+            ArrayList<String> searchId = supplierBO.getSearchId(search.getText());
+            for (String s:searchId) {
                 boolean isNotDuplicate2 = true;
                 if (suoId.isEmpty()) {
-                    suoId.add(set2.getString(1));
+                    suoId.add(s);
                 }
                 for (int i = 0; i < suoId.size(); i++) {
-                    if (suoId.get(i).equals(set2.getString(1))) {
+                    if (suoId.get(i).equals(s)) {
                         isNotDuplicate2 = false;
                     }
                 }
                 if (isNotDuplicate2) {
-                    suoId.add(set2.getString(1));
+                    suoId.add(s);
                 }
             }
             for (int i = 0; i < suoId.size(); i++) {
-                ResultSet set = SupplierController.getSupplierDetails(suoId.get(i));
-                if (set.next()) {
-                    navigation(set.getString(2), set.getString(1), set.getString(5), set.getString(4));
-
-                }
+                //ResultSet set = SupplierController.getSupplierDetails(suoId.get(i));
+                //ResultSet set = SupplierController.getSupplierDetails(suoId.get(i));
+                Supplier supplier = supplierBO.getSupplier(suoId.get(i));
+                navigation(supplier.getSupplier_id(),supplier.getCompany_name(), supplier.getLocation(),supplier.getMobile_no());
             }
         }
         if (rBSuppliersOrder.isSelected()) {
-            ResultSet set1 = SupplierOrderDetailsController.getSearchName(search.getText());
-            while (set1.next()) {
+           // ResultSet set1 = SupplierOrderDetailsController.getSearchName(search.getText());
+            ArrayList<String> searchName = supplier_order_detailsBO.getSearchName(search.getText());
+            for (String s:searchName) {
                 boolean isNotDuplicate1 = true;
                 if (orderId.isEmpty()) {
-                    orderId.add(set1.getString(1));
+                    orderId.add(s);
                 }
                 for (int i = 0; i < orderId.size(); i++) {
-                    if (orderId.get(i).equals(set1.getString(1))) {
+                    if (orderId.get(i).equals(s)) {
                         isNotDuplicate1 = false;
                     }
                 }
                 if (isNotDuplicate1) {
-                    orderId.add(set1.getString(1));
+                    orderId.add(s);
                 }
             }
-            ResultSet set2 = SupplierOrderDetailsController.getSearchId(search.getText());
-            while (set2.next()) {
+           // ResultSet set2 = SupplierOrderDetailsController.getSearchId(search.getText());
+            ArrayList<String> searchId = supplier_order_detailsBO.getSearchId(search.getText());
+            for (String s:searchId) {
                 boolean isNotDuplicate2 = true;
                 if (orderId.isEmpty()) {
-                    orderId.add(set2.getString(1));
+                    orderId.add(s);
                 }
                 for (int i = 0; i < orderId.size(); i++) {
-                    if (orderId.get(i).equals(set2.getString(1))) {
+                    if (orderId.get(i).equals(s)) {
                         isNotDuplicate2 = false;
                     }
                 }
                 if (isNotDuplicate2) {
-                    orderId.add(set2.getString(1));
+                    orderId.add(s);
                 }
             }
             for (int i = 0; i < orderId.size(); i++) {
-                ResultSet resultSet = SupplierOrderDetailsController.getSupDetaolsIdItemId(orderId.get(i));
-                if (resultSet.next()) {
-                    navigationOrderDetails(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5));
+               /* ResultSet resultSet = SupplierOrderDetailsController.getSupDetaolsIdItemId(orderId.get(i));
+                if (resultSet.next()) {*/
+                SupplierItemProjection sp = supplier_order_detailsBO.getSupDealsIdItem(orderId.get(i));
+                navigationOrderDetails(sp.getOrder_id(), sp.getSupplier_id(),sp.getCompany_name(),sp.getCOUNTItem_code(), sp.getTotal());
 
-                }
+                //}
             }
         }
 //        }
@@ -234,13 +239,14 @@ public class SupplierFromController implements Initializable {
         }
     }
 
-
+    Suppler_orderBO suppler_orderBO=BoFactory.getBoFactory().getBO(BoFactory.BOTypes.Suppler_orderBO);
     public void setAllOrder() {
         vBox.getChildren().clear();
         try {
-            ResultSet set = SupplierOrderController.getAllIds();
-            while (set.next()) {
-                transferOrderData(set.getString(1));
+           // ResultSet set = SupplierOrderController.getAllIds();
+            ArrayList<String> allIds = suppler_orderBO.getAllIds();
+            for (String s:allIds) {
+                transferOrderData(s);
             }
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
@@ -249,9 +255,10 @@ public class SupplierFromController implements Initializable {
 
     public void transferOrderData(String id) {
         try {
-            ResultSet set = SupplierOrderDetailsController.getSupIdItemId(id);
+            ResultSet set = supplier_order_detailsBO.getSupIdItemId(id);
             if (set.next()) {
-                navigationOrderDetails(set.getString(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5));
+           // String supIdItemId = supplier_order_detailsBO.getSupIdItemId(id);
+            navigationOrderDetails(set.getString(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5));
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -263,11 +270,11 @@ public class SupplierFromController implements Initializable {
         System.out.println("setAllIdForLoadAllSupplier");
         vBox.getChildren().clear();
         try {
-            ResultSet set = SupplierController.getAllId();
-            while (set.next()) {
-                transferSupplierData(set.getString(1));
+//            ResultSet set = SupplierController.getAllId();
+            ArrayList<String> allId = supplierBO.getAllId();
+            for (String s:allId) {
+                transferSupplierData(s);
             }
-
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -276,10 +283,9 @@ public class SupplierFromController implements Initializable {
 
     private void transferSupplierData(String id) {
         try {
-            ResultSet set = SupplierController.getSupplierDetails(id);
-            if (set.next()) {
-                navigation(set.getString(2), set.getString(1), set.getString(5), set.getString(4));
-            }
+          //  ResultSet set = SupplierController.getSupplierDetails(id);
+            Supplier supplier = supplierBO.getSupplier(id);
+            navigation(supplier.getSupplier_id(), supplier.getCompany_name(), supplier.getLocation(), supplier.getMobile_no());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

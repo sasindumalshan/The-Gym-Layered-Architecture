@@ -7,11 +7,9 @@ import lk.ijse.theGym.dao.custom.EmployeeDAO;
 import lk.ijse.theGym.dto.EmployeeDTO;
 import lk.ijse.theGym.dto.projection.EmployeeAttendanceProjection;
 import lk.ijse.theGym.entity.Employee;
-import lk.ijse.theGym.model.EmployeeController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class EmployeeBOImpl implements EmployeeBO {
@@ -135,4 +133,15 @@ public class EmployeeBOImpl implements EmployeeBO {
         return employeeDAO.search(text);
 
     }
+
+    @Override
+    public String getSalaryCount(String salary_id) throws SQLException, ClassNotFoundException {
+        return employeeDAO.getSalaryCount(salary_id);
+    }
+
+    @Override
+    public ArrayList<String> getAllIds() throws SQLException, ClassNotFoundException {
+        return employeeDAO.getAllIds();
+    }
+
 }

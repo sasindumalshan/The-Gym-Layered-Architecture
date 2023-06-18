@@ -2,8 +2,10 @@ package lk.ijse.theGym.dao.custom.impl;
 
 
 import lk.ijse.theGym.dao.custom.EmployeeDAO;
+import lk.ijse.theGym.dao.custom.impl.util.ReturnUtil;
 import lk.ijse.theGym.entity.Employee;
 import lk.ijse.theGym.util.CrudUtil;
+import lk.ijse.theGym.util.RegexUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -144,5 +146,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public ResultSet getDateForEmployee(String dateNow) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT employee.employee_id,employee.fist_name,employee.last_name,employee.roll,employee_attendance.date,employee_attendance.time FROM employee_attendance INNER JOIN Employee ON Employee_Attendance.employee_id = Employee.employee_id WHERE employee_attendance.date=?", dateNow);
+    }
+
+    @Override
+    public String getSalaryCount(String salary_id) throws SQLException, ClassNotFoundException {
+        return ReturnUtil.getValue(CrudUtil.crudUtil("SELECT COUNT(*) FROM employee WHERE salary_Id=?",salary_id)) ;
+    }
+
+    @Override
+    public ArrayList<String> getAllIds() throws SQLException, ClassNotFoundException {
+        return ReturnUtil.getValues( CrudUtil.crudUtil("SELECT employee_id FROM  employee"));
     }
 }

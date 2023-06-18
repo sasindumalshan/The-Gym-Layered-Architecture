@@ -11,12 +11,10 @@ import javafx.scene.text.Text;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.ItemBo;
 import lk.ijse.theGym.dto.ItemsDTO;
-import lk.ijse.theGym.model.ItemsController;
 import lk.ijse.theGym.util.Navigation;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -93,10 +91,10 @@ public class StoreFromController implements Initializable {
     public void setCountOfAllItems() {
 
         try {
-            ResultSet set = ItemsController.CountOfAllItems();
-            if (set.next()) {
-                txtAllItem.setText(set.getString(1));
-            }
+           /* ResultSet set = ItemsController.CountOfAllItems();
+            if (set.next()) {*/
+                txtAllItem.setText(itemBo.CountOfAllItems());
+            //}
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -104,10 +102,10 @@ public class StoreFromController implements Initializable {
 
     public void showLimitedStock() {
         try {
-            ResultSet set = ItemsController.limitedStock();
-            if (set.next()) {
-                txtLimiedItem.setText(set.getString(1));
-            }
+          /*  ResultSet set = ItemsController.limitedStock();
+            if (set.next()) {*/
+                txtLimiedItem.setText(itemBo.limitedStock());
+          //  }
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

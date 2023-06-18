@@ -11,7 +11,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.theGym.bo.BoFactory;
 import lk.ijse.theGym.bo.custom.EmployeeBO;
-import lk.ijse.theGym.model.EmployeeController;
 import lk.ijse.theGym.model.SalaryController;
 import lk.ijse.theGym.dto.EmployeeDTO;
 import lk.ijse.theGym.util.Navigation;

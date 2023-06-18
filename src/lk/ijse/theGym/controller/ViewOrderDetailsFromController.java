@@ -3,12 +3,9 @@ package lk.ijse.theGym.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
-import lk.ijse.theGym.model.SupplierOrderDetailsController;
 import lk.ijse.theGym.util.Navigation;
 
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ViewOrderDetailsFromController implements Initializable {
@@ -39,9 +36,8 @@ public class ViewOrderDetailsFromController implements Initializable {
     }
 
     private void setDetails() {
-        try {
-            ResultSet set = SupplierOrderDetailsController.getDetails(OrderId);
-            if (set.next()) {
+        //    ResultSet set = SupplierOrderDetailsController.getDetails(OrderId);
+           /* if (set.next()) {
 //                txtCompanyName.setText(CompanyName);
 //                txtDate.setText(set.getString(5));
 //                txtOrderId.setText(set.getString(1));
@@ -51,10 +47,7 @@ public class ViewOrderDetailsFromController implements Initializable {
 //                txtItemName.setText(itemName);
 //                txtQut.setText(set.getString(4));
 
-            }
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+            }*/
     }
 
     @Override

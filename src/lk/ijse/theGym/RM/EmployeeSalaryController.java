@@ -1,6 +1,5 @@
-package lk.ijse.theGym.dao.custom.impl;
+package lk.ijse.theGym.RM;
 
-import lk.ijse.theGym.dao.custom.Employee_salary_detailsDAO;
 import lk.ijse.theGym.dto.EmployeeSalaryDetailsDTO;
 import lk.ijse.theGym.util.CrudUtil;
 
@@ -8,10 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Employee_salary_detailsDAOImpl implements Employee_salary_detailsDAO {
+public class EmployeeSalaryController {
 
-    @Override
-    public  ArrayList<EmployeeSalaryDetailsDTO> getAll(String date) throws SQLException, ClassNotFoundException {
+    /*public static ArrayList<EmployeeSalaryDetailsDTO> getAll(String date) throws SQLException, ClassNotFoundException {
         ArrayList<EmployeeSalaryDetailsDTO> list=new ArrayList<>();
         ResultSet set= CrudUtil.crudUtil("SELECT * FROM employee_salary_details WHERE date LIKE ?",date+"%");
         while (set.next()){
@@ -23,6 +21,5 @@ public class Employee_salary_detailsDAOImpl implements Employee_salary_detailsDA
             ));
         }
         return list;
-    }
-
+    }*/
 }

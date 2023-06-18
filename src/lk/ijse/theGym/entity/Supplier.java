@@ -1,5 +1,7 @@
 package lk.ijse.theGym.entity;
 
+import lk.ijse.theGym.dto.SupplierDTO;
+
 public class Supplier {
     private String company_name;
     private String supplier_id;
@@ -67,5 +69,14 @@ public class Supplier {
                 ", mobile_no='" + mobile_no + '\'' +
                 ", location='" + location + '\'' +
                 '}';
+    }
+
+    public Supplier toEntity(SupplierDTO dto) {
+        this.company_name = dto.getCompany_name();
+        this.supplier_id = dto.getSupplier_id();
+        this.email = dto.getEmail();
+        this.mobile_no = dto.getMobile_no();
+        this.location = dto.getLocation();
+        return this;
     }
 }

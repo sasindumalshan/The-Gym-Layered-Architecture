@@ -1,4 +1,4 @@
-package lk.ijse.theGym.model;
+package lk.ijse.theGym.RM;
 
 
 import lk.ijse.theGym.dto.SupplierOrderDetailsDTO;
@@ -24,10 +24,10 @@ public class ItemsController {
         return CrudUtil.crudUtil("SELECT item_id FROM item");
     }*/
 
-    public static ResultSet viewAllItemDetails() throws SQLException, ClassNotFoundException {
+    /*public static ResultSet viewAllItemDetails() throws SQLException, ClassNotFoundException {
 
         return CrudUtil.crudUtil("SELECT * FROM item WHERE item_id=?", itemCode);
-    }
+    }*/
 
     /*public static boolean updateItem(ItemsDTO items) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("UPDATE item SET item_name=?, category=?,price=?,brand=?,description=? WHERE item_id=?", items.getItem_name(), items.getCategory(), items.getPrice(), items.getBrand(), items.getDescription(), items.getItem_id());
@@ -37,14 +37,14 @@ public class ItemsController {
         return CrudUtil.crudUtil("DELETE  FROM item WHERE item_id=?", text);
     }*/
 
-    public static ResultSet CountOfAllItems() throws SQLException, ClassNotFoundException {
+   /* public static ResultSet CountOfAllItems() throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT COUNT(*) FROM item");
 
     }
 
     public static ResultSet limitedStock() throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT COUNT(qut) FROM item WHERE qut < 5");
-    }
+    }*/
 
    /* public static ResultSet searchId(String text) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT * FROM item WHERE item_id LIKE ? OR item_name LIKE ?", text+"%",text+"%");
@@ -73,13 +73,13 @@ public class ItemsController {
         return CrudUtil.crudUtil("SELECT *FROM item");
     }*/
 
-    public static ResultSet getAllCategory() throws SQLException, ClassNotFoundException {
+    /*public static ResultSet getAllCategory() throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT DISTINCT category FROM item");
-    }
+    }*/
 
-    public static ResultSet getSelectedCategoryData(String category) throws SQLException, ClassNotFoundException {
+   /* public static ResultSet getSelectedCategoryData(String category) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT * FROM item WHERE category=?",category);
-    }
+    }*/
 
    /* public static ResultSet getSearchID(String itemCode) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT * FROM item WHERE item_id LIKE ?",itemCode);
@@ -102,7 +102,7 @@ public class ItemsController {
         return set.next();
     }*/
 
-    public static boolean updateQty(ArrayList<Order> orderDetails) throws SQLException, ClassNotFoundException {
+   /* public static boolean updateQty(ArrayList<Order> orderDetails) throws SQLException, ClassNotFoundException {
         for (int i = 0; i <orderDetails.size() ; i++) {
             if (CrudUtil.crudUtil("UPDATE item SET qut=qut-? WHERE item_id=? ",
                     orderDetails.get(i).getQty(),
@@ -116,9 +116,9 @@ public class ItemsController {
         }
         System.out.println(" All Updated !");
         return true;
-    }
+    }*/
 
-    public static boolean supplierUpdateQty(ArrayList<SupplierOrderDetailsDTO> orderDetails) throws SQLException, ClassNotFoundException {
+   /* public static boolean supplierUpdateQty(ArrayList<SupplierOrderDetailsDTO> orderDetails) throws SQLException, ClassNotFoundException {
         for (int i = 0; i < orderDetails.size(); i++) {
             if (CrudUtil.crudUtil("UPDATE item SET qut=qut+? WHERE item_id=?",
                     orderDetails.get(i).getQut(),
@@ -132,5 +132,5 @@ public class ItemsController {
         }
         System.out.println(" All Updated !");
         return true;
-    }
+    }*/
 }

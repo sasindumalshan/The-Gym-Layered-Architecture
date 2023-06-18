@@ -1,4 +1,4 @@
-package lk.ijse.theGym.model;
+package lk.ijse.theGym.RM;
 
 import lk.ijse.theGym.dto.OrderDTO;
 import lk.ijse.theGym.util.CrudUtil;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderDetailsController {
-    public static boolean setOrderDetails(ArrayList<Order> orderDetails, OrderDTO order) throws SQLException, ClassNotFoundException {
+  /*  public static boolean setOrderDetails(ArrayList<Order> orderDetails, OrderDTO order) throws SQLException, ClassNotFoundException {
         for (int i = 0; i < orderDetails.size(); i++) {
             if (CrudUtil.crudUtil("INSERT INTO order_details VALUES (?,?,?,?)",
                     order.getOrder_id(),
@@ -27,21 +27,20 @@ public class OrderDetailsController {
         System.out.println("All Added ! ");
         return true;
     }
-
-    public static ResultSet getAllYears() throws SQLException, ClassNotFoundException {
+*/
+   /* public static ResultSet getAllYears() throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT DISTINCT date FROM orders");
-    }
+    }*/
 
-    public static ResultSet getAllData(String date) throws SQLException, ClassNotFoundException {
-        System.out.println(date);
+  /*  public static ResultSet getAllData(String date) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT customer_id,date,time,order_id,final_total FROM orders WHERE date LIKE ?",date+"%");
-    }
+    }*/
 
-    public static ResultSet getDataForOrderId(String id) throws SQLException, ClassNotFoundException {
+    /*public static ResultSet getDataForOrderId(String id) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT customer_id,date,time,order_id,final_total FROM orders WHERE order_id=?",id);
-    }
+    }*/
 
-    public static ResultSet searchIDOrCustomerId(String text) throws SQLException, ClassNotFoundException {
+   /* public static ResultSet searchIDOrCustomerId(String text) throws SQLException, ClassNotFoundException {
         return CrudUtil.crudUtil("SELECT order_id FROM orders WHERE order_id LIKE ? OR customer_id LIKE ?",text+"%",text+"%");
-    }
+    }*/
 }

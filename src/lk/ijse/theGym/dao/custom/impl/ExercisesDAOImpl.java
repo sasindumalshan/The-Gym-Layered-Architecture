@@ -2,49 +2,29 @@ package lk.ijse.theGym.dao.custom.impl;
 
 import lk.ijse.theGym.dao.CrudDAO;
 import lk.ijse.theGym.dao.custom.ExercisesDAO;
+import lk.ijse.theGym.dto.ExercisesDTO;
 import lk.ijse.theGym.entity.Exercises;
+import lk.ijse.theGym.util.CrudUtil;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ExercisesDAOImpl implements ExercisesDAO {
-    @Override
-    public ArrayList<Exercises> getAll() throws SQLException, ClassNotFoundException {
-        return null;
+    public ArrayList<String> getNextId() throws SQLException, ClassNotFoundException {
+        ArrayList<String> list=new ArrayList<>();
+        ResultSet set= CrudUtil.crudUtil("SELECT exercises_id FROM exercises ORDER BY LENGTH(exercises_id ),exercises_id");
+        while (set.next()){
+            list.add(set.getString(1));
+        }
+        return list;
     }
 
-    @Override
-    public boolean save(Exercises dto) throws SQLException, ClassNotFoundException {
-        return false;
+    public boolean setExercises(ExercisesDTO exercises) throws SQLException, ClassNotFoundException {
+        return CrudUtil.crudUtil("INSERT INTO exercises VALUES (?,?)",
+                exercises.getId(),
+                exercises.getExercises()
+        );
     }
 
-    @Override
-    public boolean update(Exercises dto) throws SQLException, ClassNotFoundException {
-        return false;
-    }
-
-    @Override
-    public boolean exist(String s) throws SQLException, ClassNotFoundException {
-        return false;
-    }
-
-    @Override
-    public boolean delete(String s) throws SQLException, ClassNotFoundException {
-        return false;
-    }
-
-    @Override
-    public String generateNewID() throws SQLException, ClassNotFoundException {
-        return null;
-    }
-
-    @Override
-    public ArrayList<String> search(String s) throws SQLException, ClassNotFoundException {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Exercises> get(String s) throws SQLException, ClassNotFoundException {
-        return null;
-    }
 }
